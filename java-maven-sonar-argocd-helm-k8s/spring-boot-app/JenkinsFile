@@ -6,6 +6,17 @@ pipeline {
     }
   }
   stages {
+     stage('Docker Login') {
+            steps {
+                script {
+                    // Use Docker credentials stored in Jenkins
+                    withCredentials([usernamePassword(credentialsId: 'docker-cred', usernameVariable: 'skrishna120', passwordVariable: 'Devops@120')]) {
+                        // Log in to Docker
+                        sh "echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin"
+                    }
+                }
+            }
+        }
     stage('Checkout') {
       steps {
         sh 'echo passed'
@@ -39,7 +50,6 @@ pipeline {
     }
     steps {
         script {
-          sh 'docker login'
             // Build the Docker image in the current directory where the Dockerfile is located
             sh 'docker build -t ${DOCKER_IMAGE} .'
             def dockerImage = docker.image("${DOCKER_IMAGE}")

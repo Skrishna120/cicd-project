@@ -3,6 +3,8 @@ pipeline {
     docker {
       image 'skrishna120/ultimate-cicd-pipeline'
       args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
+      label 'support_ubuntu_docker'
+
     }
   }
   stages {
@@ -12,6 +14,11 @@ pipeline {
         //git branch: 'main', url: 'https://github.com/iam-veeramalla/Jenkins-Zero-To-Hero.git'
       }
     }
+     stage('Test Harsha') {
+            steps {
+                sh 'java --version'
+            }
+        }
     stage('Build and Test') {
       steps {
         sh 'ls -ltr'
